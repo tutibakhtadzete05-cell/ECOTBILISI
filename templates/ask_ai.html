@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Ask AI - ECO TBILISI{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-wrapper box-yellow">
+            <h1 class="display-4 text-center" style="font-size: 2.2rem; font-weight: 700;">Eco AI Assistant</h1>
+            <p class="text-center text-muted mb-4">Have questions about recycling rules in Tbilisi or green habits? Ask our Llama AI agent!</p>
+            <div class="custom-hr"></div>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group mb-4">
+                    {{ form.question.label(style="font-weight: 600; color: #2E8B57; display: block; margin-bottom: 8px;") }}
+                    {{ form.question(class="form-control", placeholder="e.g., Where can I drop off plastic bottles in Tbilisi?", style="border-radius: 8px; border: 1px solid #FAFAD2; padding: 12px;") }}
+                    {% for error in form.question.errors %}
+                        <span class="text-danger small d-block mt-1">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-accent w-100") }}
+            </form>
+
+            {% if answer %}
+            <div class="mt-4 p-4 accent-box" style="background-color: #E6E6FA; border-radius: 12px; border: 1px solid #FAFAD2;">
+                <h5 style="font-weight: 700; color: #2E8B57; margin-bottom: 10px;">🍃 AI Response:</h5>
+                <div style="white-space: pre-wrap; color: #3d5a4c; line-height: 1.6; font-size: 15px;">{{ answer }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

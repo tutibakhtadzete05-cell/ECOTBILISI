@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Report Incident - ECO TBILISI{% endblock %}
+
+{% block body %}
+<div class="row d-flex align-items-stretch">
+    <!-- Left Side: The Reporting Form Box -->
+    <div class="col-md-5 mb-4 mb-md-0">
+        <div class="card-wrapper box-yellow">
+            <h2 style="font-weight: 700; color: #2E8B57; margin-bottom: 10px;">Report an Issue</h2>
+            <p class="text-muted small mb-4" style="color: #3d5a4c !important;">Fill out the fields below to pin down a critical pollution spot in the city.</p>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group mb-4">
+                    {{ form.location.label(style="font-weight: 600; color: #2E8B57; display: block; margin-bottom: 8px;") }}
+                    {{ form.location(class="form-control", placeholder="e.g., Vake, Chavchavadze Ave N3", style="border-radius: 8px; border: 1px solid #FAFAD2;") }}
+                    {% for error in form.location.errors %}
+                        <span class="text-danger small d-block mt-1">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form.description.label(style="font-weight: 600; color: #2E8B57; display: block; margin-bottom: 8px;") }}
+                    {{ form.description(class="form-control", rows=5, placeholder="Describe the type of waste or pollution issues observed...", style="border-radius: 8px; border: 1px solid #FAFAD2;") }}
+                    {% for error in form.description.errors %}
+                        <span class="text-danger small d-block mt-1">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-accent w-100") }}
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Side: The Feed Box -->
+    <div class="col-md-7">
+        <div class="card-wrapper box-lavender">
+            <h2 style="font-weight: 700; color: #2E8B57; margin-bottom: 25px;">Active Incidents in Tbilisi</h2>
+            <div style="max-height: 450px; overflow-y: auto; padding-right: 5px;">
+                {% for report in reports %}
+                    <div style="background-color: #FFFFE0; padding: 20px; border-left: 5px solid #2E8B57; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                        <h4 style="font-weight: 700; margin-bottom: 5px; font-size: 18px; color: #2E8B57;">📍 {{ report.location }}</h4>
+                        <p class="box-text" style="margin: 0;">{{ report.description }}</p>
+                    </div>
+                {% else %}
+                    <div class="alert text-center" style="background-color: #FFFFE0; color: #2E8B57; border: 1px solid #FAFAD2; border-radius: 8px; padding: 20px; font-weight: 500;">
+                        No active issues reported yet. Tbilisi is looking pristine!
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- Check if the user is logged in AND is an admin -->
+{% if current_user.is_authenticated and current_user.is_admin %}
+    <form action="{{ url_for('delete_report', report_id=report.id) }}" method="POST" class="mt-2">
+        <button type="submit" class="btn btn-danger btn-sm">🗑️ Delete/Resolve Incident</button>
+    </form>
+{% endif %}

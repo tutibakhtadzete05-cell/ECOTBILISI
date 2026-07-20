@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Photo Upload - ECO TBILISI{% endblock %}
+{% block body %}
+<div class="card-wrapper box-lavender">
+    <h1>Upload Evidence</h1>
+    <p>Help us map pollution spots by uploading photos.</p>
+    <div class="custom-hr"></div>
+    <form>
+        <div class="form-group">
+            <label>Select Photo</label>
+            <input type="file" class="form-control-file" style="padding: 10px; background: white; border-radius: 8px;">
+        </div>
+        <button type="submit" class="btn btn-accent mt-3">Upload Image</button>
+    </form>
+</div>
+{% endblock %}

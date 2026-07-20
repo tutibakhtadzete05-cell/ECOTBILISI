@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ECO TBILISI{% endblock %}</title>
+    <!-- Bootstrap 4.6 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Google Fonts for crisp, premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base page settings with Azure background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F0FFFF;
+            color: #2E8B57;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Container to push footer to the bottom seamlessly */
+        .main-wrapper {
+            flex: 1;
+        }
+
+        /* Smooth Top Navigation Bar with Sea Green */
+        .navbar-custom {
+            background-color: #2E8B57;
+            padding: 18px 30px;
+            margin: 25px 25px 0 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.15);
+        }
+        .navbar-custom .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+            color: #F5F5F5 !important;
+        }
+        .navbar-custom .nav-link {
+            color: #F5F5F5 !important;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #2E8B57 !important;
+            background-color: #FFFFE0; /* Flips color cleanly on hover */
+        }
+
+        /* Unified regular boxing card wrapper */
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Forces equal height columns */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease;
+        }
+        .card-wrapper:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Custom color cards utilizing your specific color code choices */
+        .box-yellow {
+            background-color: #FFFFE0;
+            border: 1px solid #FAFAD2;
+        }
+        .box-lavender {
+            background-color: #E6E6FA;
+            border: 1px solid #FAFAD2;
+        }
+
+        /* Typography & elements adjustments */
+        h1.display-4 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: #2E8B57;
+            margin-bottom: 15px;
+        }
+        .sub-lead {
+            font-style: italic;
+            color: #2E8B57;
+            opacity: 0.8;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        .custom-hr {
+            border-top: 2px solid rgba(46, 139, 87, 0.1);
+            margin: 20px 0;
+        }
+        .box-text {
+            color: #3d5a4c;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Button Redesign for high contrast clickability */
+        .btn-accent {
+            background-color: #2E8B57;
+            color: #F5F5F5;
+            font-weight: 600;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(46, 139, 87, 0.2);
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .btn-accent:hover {
+            background-color: #246e44;
+            color: #ffffff;
+            box-shadow: 0 6px 15px rgba(46, 139, 87, 0.3);
+            text-decoration: none;
+        }
+
+        /* Sticky Bottom Footer */
+        footer {
+            background-color: #2E8B57;
+            color: #F5F5F5;
+            padding: 22px 0;
+            margin: 40px 25px 25px 25px;
+            border-radius: 16px;
+            box-shadow: 0 -4px 15px rgba(46, 139, 87, 0.1);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <!-- Upper Top Navigation Bar Bar -->
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('index') }}">ECO TBILISI</a>
+                <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-nav ml-auto align-items-center">
+                        <a class="nav-link mx-1" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-link mx-1" href="{{ url_for('air_quality') }}">Air Indicator</a>
+                        <a class="nav-link mx-1" href="{{ url_for('ai_page') }}">Ask AI</a>
+                        <a class="nav-link mx-1" href="{{ url_for('educational') }}">Educational</a>
+                        <a class="nav-link mx-1" href="{{ url_for('upload') }}">Photo Upload</a>
+                        <a class="nav-link mx-1" href="{{ url_for('report') }}">Report Incident</a>
+
+                        <!-- Dynamic User Authentication Links -->
+                        {% if current_user.is_authenticated %}
+                            <span class="nav-item nav-link mx-1" style="color: #FFFFE0 !important; font-weight: 600;">Hello, {{ current_user.username }}!</span>
+                            <a class="nav-link mx-1" href="{{ url_for('logout') }}" style="color: #ffcccb !important; font-weight: bold;">Logout</a>
+                        {% else %}
+                            <a class="nav-link mx-1" href="{{ url_for('login') }}">Login</a>
+                            <a class="nav-link mx-1 style-signup" href="{{ url_for('signup') }}" style="color: #FFFFE0 !important; font-weight: bold;">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dynamic Content Area -->
+        <div class="container my-5">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Soft Edge Footer layout -->
+    <footer class="text-center">
+        <p class="mb-0" style="font-size: 14px; letter-spacing: 0.3px;">&copy; 2026 ECO TBILISI. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<!-- Soft Edge Footer layout -->
+    <footer class="text-center">
+        <div class="container d-flex flex-column align-items-center justify-content-center">
+            <!-- TBC & GeoLab Logos -->
+            <div class="mb-2 d-flex align-items-center justify-content-center" style="gap: 20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/TBC_Bank_Logo.svg" alt="TBC Logo" style="height: 25px; filter: brightness(0) invert(1);">
+                <span style="color: #F5F5F5; opacity: 0.5; font-size: 18px;">|</span>
+                <span style="font-weight: 700; color: #FFFFE0; font-size: 14px; letter-spacing: 1px;">GEOLAB Tech School</span>
+            </div>
+            <p class="mb-0" style="font-size: 13px; letter-spacing: 0.3px; opacity: 0.9;">&copy; 2026 ECO TBILISI. All Rights Reserved.</p>
+        </div>
+    </footer>

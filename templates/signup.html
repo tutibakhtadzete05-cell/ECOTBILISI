@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - ECO TBILISI{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card-wrapper box-yellow">
+            <h2 class="text-center mb-4" style="font-weight: 700; color: #2E8B57;">Create an Account</h2>
+            <div class="custom-hr"></div>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group mb-3">
+                    {{ form.username.label(style="font-weight: 600;") }}
+                    {{ form.username(class="form-control", placeholder="Choose a username") }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.email.label(style="font-weight: 600;") }}
+                    {{ form.email(class="form-control", placeholder="Enter your email") }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.password.label(style="font-weight: 600;") }}
+                    {{ form.password(class="form-control", placeholder="Create a password") }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form.confirm_password.label(style="font-weight: 600;") }}
+                    {{ form.confirm_password(class="form-control", placeholder="Repeat your password") }}
+                </div>
+
+                {{ form.submit(class="btn btn-accent w-100") }}
+            </form>
+            <p class="text-center mt-3 text-muted small">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
